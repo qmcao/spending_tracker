@@ -27,12 +27,12 @@
           <span class="value" id="total-month">$0.00</span>
         </div>
         <div class="total-card">
-          <span class="label">Pending (credit)</span>
-          <span class="value" id="total-pending">$0.00</span>
+          <span class="label">Credit cards</span>
+          <span class="value" id="total-credit">$0.00</span>
         </div>
         <div class="total-card">
-          <span class="label">Cleared</span>
-          <span class="value" id="total-cleared">$0.00</span>
+          <span class="label">Debit card</span>
+          <span class="value" id="total-debit">$0.00</span>
         </div>
       </div>
     </header>
@@ -70,6 +70,9 @@
           <datalist id="category-list"></datalist>
 
           <div class="chips" id="category-chips"></div>
+          <div class="category-actions">
+            <button type="button" class="ghost small" id="add-category-btn">+ Add custom category</button>
+          </div>
 
           <label>
             Notes
@@ -77,12 +80,6 @@
           </label>
 
           <div class="card-grid" id="card-options"></div>
-
-          <label class="toggle">
-            <input type="checkbox" name="cleared" />
-            <span class="toggle__slider"></span>
-            <span class="toggle__label">Money already left account</span>
-          </label>
 
           <div class="form-actions">
             <button class="secondary" type="button" id="import-btn">Import data</button>
@@ -116,6 +113,10 @@
             <p class="eyebrow">History</p>
             <h2>Recent transactions</h2>
           </div>
+          <label class="category-filter">
+            <span>Category</span>
+            <select id="category-filter"></select>
+          </label>
           <button class="ghost" id="clear-btn" type="button">Clear all</button>
         </div>
         <div id="history-list" class="history-list">
@@ -133,7 +134,6 @@
         <div class="transaction__meta">
           <span class="amount"></span>
           <span class="badge card-badge"></span>
-          <span class="badge status-badge"></span>
           <button class="icon-btn edit-btn" title="Edit" type="button">✎</button>
           <button class="icon-btn delete-btn" title="Delete" type="button">✕</button>
         </div>

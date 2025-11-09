@@ -5,15 +5,16 @@ Single-page web app for fast manual entry of transactions across two banks and t
 ## MVP feature goals
 
 1. **Transaction capture**
-   - Inputs: date (defaults to today), amount, category, card (bank + credit/debit), optional memo, toggle for `cleared` (to indicate whether money has left account).
-   - Quick category buttons for frequent categories.
-   - Amount keypad for painless entry on mobile.
+   - Inputs: date (defaults to today), amount, category, card (bank + credit/debit), optional memo.
+   - Quick category chips (editable at runtime) plus an “add custom category” action stored locally.
+   - Form spacing tuned for thumb reach on mobile.
 2. **History display**
-   - Grouped by day with totals.
-   - Inline badges for card + status so user can tell what is pending.
-   - Edit/delete actions per entry.
+   - Grouped by day inside collapsible monthly sections.
+   - Card badges show which bank/card handled the spend; edit/delete for every row.
+   - Category filter to narrow the list when zeroing in on a specific budget bucket.
 3. **Summary insights**
-   - Totals per card and per status (pending vs cleared).
+   - Hero totals: current month + credit vs debit spend to quickly gauge payoff needs.
+   - Category pie chart per month with legend, driven entirely by local data.
 4. **Persistence**
    - Offline-ready using `localStorage`, with JSON export/import to move between devices/backups.
 
@@ -33,13 +34,13 @@ Single-page web app for fast manual entry of transactions across two banks and t
 type CardId = 'bankA-credit' | 'bankB-credit' | 'bankA-debit';
 
 interface Transaction {
-  id: string; // uuid
+  id: string;
   date: string; // ISO yyyy-mm-dd
   amount: number; // cents
   category: string;
   memo?: string;
   cardId: CardId;
-  cleared: boolean;
+  cleared?: boolean; // legacy flag, default true
   createdAt: number;
 }
 ```

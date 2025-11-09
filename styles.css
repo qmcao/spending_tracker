@@ -109,6 +109,7 @@ main {
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .card__header h2 {
@@ -176,6 +177,16 @@ textarea:focus {
   gap: 0.5rem;
 }
 
+.category-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ghost.small {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
 .chip {
   border: none;
   padding: 0.45rem 0.9rem;
@@ -230,55 +241,102 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
-.toggle {
-  flex-direction: row;
-  align-items: center;
-  gap: 0.85rem;
-  cursor: pointer;
-}
-
-.toggle input {
-  display: none;
-}
-
-.toggle__slider {
-  width: 46px;
-  height: 26px;
-  border-radius: 999px;
-  background: #e1ccda;
-  position: relative;
-  transition: background 0.2s;
-}
-
-.toggle__slider::after {
-  content: '';
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #fff;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  transition: transform 0.2s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.toggle input:checked + .toggle__slider {
-  background: linear-gradient(120deg, var(--accent), #f7b7d6);
-}
-
-.toggle input:checked + .toggle__slider::after {
-  transform: translateX(20px);
-}
-
-.toggle__label {
-  font-weight: 500;
-}
-
 .form-actions {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.summary-card .card__header {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.summary-content {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+#category-chart {
+  flex: 0 0 auto;
+  width: 240px;
+  height: 240px;
+}
+
+.summary-list {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(44, 31, 47, 0.08);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.summary-row__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.summary-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.summary-row__amount {
+  font-weight: 600;
+}
+
+.summary-row__percent {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.month-picker,
+.category-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.category-filter {
+  min-width: 140px;
+}
+
+.category-filter select,
+.month-picker select {
+  border-radius: 12px;
+  border: 1px solid #f4c7dd;
+  padding: 0.4rem 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+  background: #fff;
 }
 
 button {
@@ -318,6 +376,57 @@ button:active {
   gap: 1rem;
 }
 
+.month-section {
+  background: #fff4f8;
+  border-radius: 18px;
+  padding: 1rem;
+  border: 1px solid #ffe3f0;
+}
+
+.month-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.month-section__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.month-section__title h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.month-section__total {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.month-body {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.month-section.collapsed .month-body {
+  display: none;
+}
+
+.month-toggle {
+  background: var(--surface);
+  border: 1px solid #f4c7dd;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
 .empty {
   text-align: center;
   color: var(--text-muted);
@@ -325,10 +434,10 @@ button:active {
 }
 
 .day-group {
-  background: #fff4f8;
-  border-radius: 18px;
+  background: #fff;
+  border-radius: 16px;
   padding: 1rem;
-  border: 1px solid #ffe3f0;
+  border: 1px solid rgba(44, 31, 47, 0.08);
 }
 
 .day-group__header {
@@ -378,7 +487,7 @@ button:active {
 .transaction__meta {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -392,16 +501,6 @@ button:active {
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
   background: var(--surface-muted);
-}
-
-.status-badge.pending {
-  background: #fff4c6;
-  color: #8a6b00;
-}
-
-.status-badge.cleared {
-  background: #c2f2d0;
-  color: #1a5c37;
 }
 
 .icon-btn {
