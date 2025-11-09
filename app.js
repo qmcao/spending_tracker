@@ -80,6 +80,15 @@ let currentCategoryFilter = 'all';
 
 init();
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swUrl = new URL('service-worker.js', window.location.href);
+    navigator.serviceWorker.register(swUrl.href).catch((err) => {
+      console.warn('Service worker registration failed', err);
+    });
+  });
+}
+
 /**
  * Bootstraps the UI: defaults the date, renders card/category helpers, loads data, and wires up events.
  */

@@ -16,7 +16,7 @@ Single-page web app for fast manual entry of transactions across two banks and t
    - Hero totals: current month + credit vs debit spend to quickly gauge payoff needs.
    - Category pie chart per month with legend, driven entirely by local data.
 4. **Persistence**
-   - Offline-ready using `localStorage`, with JSON export/import to move between devices/backups.
+   - Offline-ready using `localStorage` plus a service worker cache, with JSON export/import to move between devices/backups.
 
 ## Visual direction
 
@@ -45,8 +45,16 @@ interface Transaction {
 }
 ```
 
+## Offline install on iPhone
+
+1. Deploy the site to GitHub Pages (or any HTTPS static host) so Safari can reach it once.
+2. Open the URL in Safari, wait for the page to load fully (this registers and populates the service worker cache).
+3. Tap the share icon → “Add to Home Screen.” Launching from the new icon now works offline; all assets load from the local cache and data stays in `localStorage`.
+4. When you push code updates, bump `CACHE_NAME` inside `service-worker.js` to force clients to refresh their cached files.
+
 ## Next steps
 
 1. Scaffold static files (`index.html`, `styles.css`, `app.js`).
 2. Implement UI + interactions per spec above.
 3. Test on mobile viewport, refine aesthetics, and document usage.
+4. Verify the PWA install flow: load the page once online, add it to the iOS home screen, then toggle airplane mode to confirm everything runs offline.
