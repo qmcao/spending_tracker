@@ -220,6 +220,32 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.4), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card-option::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 16px;
+  background: var(--surface);
+  z-index: 0;
+}
+
+.card-option__name,
+.card-option__type {
+  position: relative;
+  z-index: 1;
 }
 
 .card-option input {
@@ -236,9 +262,13 @@ textarea:focus {
 }
 
 .card-option.active {
-  border-color: var(--accent);
-  background: #fff1f7;
+  border-color: var(--card-color, var(--accent));
+  background: color-mix(in srgb, var(--card-color, var(--accent)) 20%, #fff);
   transform: translateY(-1px);
+}
+
+.card-option.active::before {
+  opacity: 1;
 }
 
 .form-actions {
