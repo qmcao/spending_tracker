@@ -42,7 +42,22 @@ const CATEGORY_SUGGESTIONS = [
   'Entertainment',
   'Health',
 ];
-const CHART_COLORS = ['#E7A5C1', '#FADDEA', '#C9B7FF', '#C2F2D0', '#FFD6E0', '#FFBEF0', '#B4E0FF'];
+const CHART_COLORS = [
+  '#E7A5C1',
+  '#FADDEA',
+  '#C9B7FF',
+  '#C2F2D0',
+  '#FFD6E0',
+  '#FFBEF0',
+  '#B4E0FF',
+  '#FFCF9F',
+  '#FF9AA2',
+  '#A7E8BD',
+  '#F6C2FF',
+  '#9AD0F5',
+  '#FFE29A',
+  '#D3B5FF',
+];
 const CHART_SIZE = 240;
 
 // Cached DOM references for all interactive elements on the page.
@@ -67,6 +82,8 @@ const categoryFilter = document.querySelector('#category-filter');
 const addCategoryBtn = document.querySelector('#add-category-btn');
 const chartCanvas = document.querySelector('#category-chart');
 const breakdownList = document.querySelector('#category-breakdown');
+const categoryTotal = document.querySelector('#category-total');
+const toast = document.querySelector('#toast');
 const chartCtx = chartCanvas ? chartCanvas.getContext('2d') : null;
 
 let transactions = [];
@@ -231,6 +248,7 @@ function handleSubmit(event) {
   render();
   form.reset();
   dateField.value = formatDateForInput(new Date());
+  showToast('Transaction saved!');
 }
 
 /**
@@ -388,10 +406,15 @@ function renderCategorySummary() {
   drawPieChart(entries);
 
   const totalAmount = entries.reduce((sum, item) => sum + item.amount, 0);
+  if (categoryTotal) {
+    categoryTotal.textContent = `${formatCurrency(totalAmount)} total`;
+  }
   breakdownList.innerHTML = entries
+    .slice(0, 3)
     .map((item, idx) => {
       const percent = ((item.amount / totalAmount) * 100).toFixed(1);
       const color = CHART_COLORS[idx % CHART_COLORS.length];
+      const topBadge = idx < 3 ? '<span class="summary-row__badge">Top spend</span>' : '';
       return `
         <div class="summary-row">
           <div class="summary-row__info">
@@ -400,6 +423,7 @@ function renderCategorySummary() {
               ${item.category}
             </div>
             <span class="summary-row__percent">${percent}% of month</span>
+            ${topBadge}
           </div>
           <span class="summary-row__amount">${formatCurrency(item.amount)}</span>
         </div>
@@ -688,6 +712,14 @@ function createMemoryStorage(initial = []) {
 function updateStorageWarning() {
   if (!storageWarning) return;
   storageWarning.hidden = storage.persisted;
+}
+
+function showToast(message) {
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timeout);
+  showToast.timeout = setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
 /**
