@@ -26,7 +26,7 @@ const CARDS = [
   },
 ];
 
-const LOCAL_KEY = 'spending-tracker-v1.0.2';
+const LOCAL_KEY = 'spending-tracker-v1.0.3';
 const CUSTOM_CATEGORY_KEY = 'spending-tracker-custom-categories';
 const CATEGORY_SUGGESTIONS = [
   'Clothes/Makeup',
@@ -410,7 +410,6 @@ function renderCategorySummary() {
     categoryTotal.textContent = `${formatCurrency(totalAmount)} total`;
   }
   breakdownList.innerHTML = entries
-    .slice(0, 3)
     .map((item, idx) => {
       const percent = ((item.amount / totalAmount) * 100).toFixed(1);
       const color = CHART_COLORS[idx % CHART_COLORS.length];
