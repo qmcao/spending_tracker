@@ -258,12 +258,12 @@ function renderTotals() {
     const date = parseDateOnly(tx.date);
     if (monthKeyFromDate(date) === monthKey) {
       monthTotal += tx.amount;
-    }
-    const card = cardById(tx.cardId);
-    if (card?.type === 'credit') {
-      creditTotal += tx.amount;
-    } else {
-      debitTotal += tx.amount;
+      const card = cardById(tx.cardId);
+      if (card?.type === 'credit') {
+        creditTotal += tx.amount;
+      } else {
+        debitTotal += tx.amount;
+      }
     }
   });
 
