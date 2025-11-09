@@ -26,7 +26,7 @@ const CARDS = [
   },
 ];
 
-const LOCAL_KEY = 'spending-tracker-v1';
+const LOCAL_KEY = 'spending-tracker-v1.0.2';
 const CUSTOM_CATEGORY_KEY = 'spending-tracker-custom-categories';
 const CATEGORY_SUGGESTIONS = [
   'Clothes/Makeup',
