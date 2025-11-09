@@ -93,7 +93,7 @@ if ('serviceWorker' in navigator) {
  * Bootstraps the UI: defaults the date, renders card/category helpers, loads data, and wires up events.
  */
 function init() {
-  dateField.valueAsDate = new Date();
+  dateField.value = formatDateForInput(new Date());
   renderCardOptions();
   cardOptions.addEventListener('change', handleCardChange);
   renderCategorySuggestions();
@@ -230,7 +230,7 @@ function handleSubmit(event) {
   saveTransactions();
   render();
   form.reset();
-  dateField.valueAsDate = new Date();
+  dateField.value = formatDateForInput(new Date());
 }
 
 /**
@@ -255,7 +255,7 @@ function renderTotals() {
   let debitTotal = 0;
 
   transactions.forEach((tx) => {
-    const date = new Date(tx.date);
+    const date = parseDateOnly(tx.date);
     if (monthKeyFromDate(date) === monthKey) {
       monthTotal += tx.amount;
     }
@@ -292,7 +292,7 @@ function renderHistory() {
     return;
   }
 
-  const monthGroups = groupBy(filtered, (tx) => monthKeyFromDate(new Date(tx.date)));
+  const monthGroups = groupBy(filtered, (tx) => monthKeyFromDate(parseDateOnly(tx.date)));
   const sortedMonths = Object.keys(monthGroups).sort((a, b) => (a < b ? 1 : -1));
 
   sortedMonths.forEach((monthKey) => {
@@ -367,7 +367,7 @@ function renderDayGroup(date, items) {
  */
 function renderCategorySummary() {
   if (!breakdownList) return;
-  const monthTx = transactions.filter((tx) => monthKeyFromDate(new Date(tx.date)) === currentMonthKey);
+  const monthTx = transactions.filter((tx) => monthKeyFromDate(parseDateOnly(tx.date)) === currentMonthKey);
 
   if (!monthTx.length) {
     breakdownList.innerHTML = `<p class="empty">No spending recorded this month.</p>`;
@@ -615,7 +615,7 @@ function formatCurrency(cents) {
  * Formats a YYYY-MM-DD string into a friendly weekday/month/day label.
  */
 function formatDay(dateStr) {
-  const date = new Date(dateStr);
+  const date = parseDateOnly(dateStr);
   return new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(date);
 }
 
@@ -696,7 +696,7 @@ function updateStorageWarning() {
 function updateMonthFilter() {
   if (!monthFilter) return;
   const months = new Set();
-  transactions.forEach((tx) => months.add(monthKeyFromDate(new Date(tx.date))));
+  transactions.forEach((tx) => months.add(monthKeyFromDate(parseDateOnly(tx.date))));
   months.add(monthKeyFromDate(new Date()));
   const options = Array.from(months).sort((a, b) => (a < b ? 1 : -1));
   monthFilter.innerHTML = options
@@ -773,4 +773,17 @@ function monthKeyFromDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   return `${year}-${month}`;
+}
+
+function formatDateForInput(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function parseDateOnly(dateStr) {
+  if (!dateStr) return new Date();
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, (month || 1) - 1, day || 1);
 }

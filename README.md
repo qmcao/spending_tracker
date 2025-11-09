@@ -50,7 +50,7 @@ interface Transaction {
 1. Deploy the site to GitHub Pages (or any HTTPS static host) so Safari can reach it once.
 2. Open the URL in Safari, wait for the page to load fully (this registers and populates the service worker cache).
 3. Tap the share icon → “Add to Home Screen.” Launching from the new icon now works offline; all assets load from the local cache and data stays in `localStorage`.
-4. When you push code updates, bump `CACHE_NAME` inside `service-worker.js` to force clients to refresh their cached files.
+4. **Reminder:** every time you change any of the static files, bump `CACHE_NAME` inside `service-worker.js` so clients pull the new bundle instead of using the stale cache.
 
 ## Next steps
 
