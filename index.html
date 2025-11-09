@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spending Blossoms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Spending Tracker</p>
+        <h1>Stay cute &amp; on budget</h1>
+        <p class="subhead">
+          Track credit and debit purchases across both banks in seconds. All data lives on your device.
+        </p>
+      </div>
+      <div class="hero__totals" id="totals">
+        <div class="total-card">
+          <span class="label">This Month</span>
+          <span class="value" id="total-month">$0.00</span>
+        </div>
+        <div class="total-card">
+          <span class="label">Pending (credit)</span>
+          <span class="value" id="total-pending">$0.00</span>
+        </div>
+        <div class="total-card">
+          <span class="label">Cleared</span>
+          <span class="value" id="total-cleared">$0.00</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card entry-card">
+        <div class="card__header">
+          <div>
+            <p class="eyebrow">New transaction</p>
+            <h2>Add a spend</h2>
+          </div>
+          <button class="ghost" id="export-btn" type="button">Export JSON</button>
+        </div>
+
+        <p class="notice" id="storage-warning" hidden>
+          Storage is disabled in this browser mode. Transactions stay until you close the tab. Export often!
+        </p>
+
+        <form id="transaction-form">
+          <div class="form-row">
+            <label>
+              Date
+              <input type="date" name="date" required />
+            </label>
+            <label>
+              Amount
+              <input type="number" name="amount" min="0" step="0.01" placeholder="0.00" required />
+            </label>
+          </div>
+
+          <label>
+            Category
+            <input type="text" name="category" list="category-list" placeholder="Coffee, Groceries..." required />
+          </label>
+          <datalist id="category-list"></datalist>
+
+          <div class="chips" id="category-chips"></div>
+
+          <label>
+            Notes
+            <input type="text" name="memo" placeholder="Optional" />
+          </label>
+
+          <div class="card-grid" id="card-options"></div>
+
+          <label class="toggle">
+            <input type="checkbox" name="cleared" />
+            <span class="toggle__slider"></span>
+            <span class="toggle__label">Money already left account</span>
+          </label>
+
+          <div class="form-actions">
+            <button class="secondary" type="button" id="import-btn">Import data</button>
+            <button class="primary" type="submit">Save transaction</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card summary-card">
+        <div class="card__header">
+          <div>
+            <p class="eyebrow">Categories</p>
+            <h2>Monthly breakdown</h2>
+          </div>
+          <label class="month-picker">
+            <span>Month</span>
+            <select id="month-filter"></select>
+          </label>
+        </div>
+        <div class="summary-content">
+          <canvas id="category-chart" width="260" height="260" role="img" aria-label="Spending by category chart"></canvas>
+          <div class="summary-list" id="category-breakdown">
+            <p class="empty">Add a transaction to see your categories.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="history card">
+        <div class="card__header">
+          <div>
+            <p class="eyebrow">History</p>
+            <h2>Recent transactions</h2>
+          </div>
+          <button class="ghost" id="clear-btn" type="button">Clear all</button>
+        </div>
+        <div id="history-list" class="history-list">
+          <p class="empty">No transactions yet. Add your first spend!</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="transaction-template">
+      <div class="transaction">
+        <div class="transaction__main">
+          <p class="category"></p>
+          <p class="memo"></p>
+        </div>
+        <div class="transaction__meta">
+          <span class="amount"></span>
+          <span class="badge card-badge"></span>
+          <span class="badge status-badge"></span>
+          <button class="icon-btn edit-btn" title="Edit" type="button">✎</button>
+          <button class="icon-btn delete-btn" title="Delete" type="button">✕</button>
+        </div>
+      </div>
+    </template>
+
+    <dialog id="import-dialog">
+      <form method="dialog" class="dialog-card">
+        <h3>Import transactions</h3>
+        <textarea id="import-text" rows="6" placeholder='Paste exported JSON here'></textarea>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost">Cancel</button>
+          <button value="import" class="primary">Import</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
