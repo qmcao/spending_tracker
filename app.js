@@ -5,22 +5,22 @@
 const CARDS = [
   {
     id: 'blossom-credit',
-    name: 'Blossom Bank',
-    nickname: 'Blossom Credit',
+    name: 'Chase Bank',
+    nickname: 'Chase Credit',
     type: 'credit',
     color: '#f9c8da',
   },
   {
     id: 'luna-credit',
-    name: 'Luna Bank',
-    nickname: 'Luna Credit',
+    name: 'Discover Bank',
+    nickname: 'Discover Credit',
     type: 'credit',
     color: '#d6ccff',
   },
   {
     id: 'blossom-debit',
-    name: 'Blossom Bank',
-    nickname: 'Blossom Debit',
+    name: 'Chase Bank',
+    nickname: 'Chase Debit',
     type: 'debit',
     color: '#c2f2d0',
   },
